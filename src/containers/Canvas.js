@@ -5,7 +5,7 @@ class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 500,
+      width: 1000,
       height: 500
     }
   }

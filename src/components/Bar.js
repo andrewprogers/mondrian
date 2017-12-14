@@ -7,8 +7,13 @@ const Bar = props => {
     height: '100%'
   }
 
+  let clickHandler = (e) => {
+    e.stopPropagation();
+  }
+
   return(
     <div
+      onClick={clickHandler}
       style={barStyle}
       className='Bar'>
     </div>

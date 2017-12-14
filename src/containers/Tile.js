@@ -2,7 +2,7 @@ import React from 'react';
 import Bar from '../components/Bar';
 import utils from '../temp/utils';
 
-const BAR_WIDTH = 4
+const BAR_WIDTH = 8
 
 class Tile extends React.Component {
   constructor(props) {
@@ -79,7 +79,7 @@ class Tile extends React.Component {
         onClick={this.clickHandler}>
         {children}
       </div>
-    )
+    );
   }
 }
 

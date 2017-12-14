@@ -1,12 +1,12 @@
 import React from 'react';
+import Tile from './Tile';
 
 class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      width: 500,
-      height: 500,
-      sectorProportions: []
+      width: 1000,
+      height: 500
     }
   }
 
@@ -17,7 +17,13 @@ class Canvas extends React.Component {
     };
 
     return(
+
       <div style={canvasStyle} className='Canvas'>
+        <Tile
+          initialColor='#BBB'
+          width={this.state.width}
+          height={this.state.height}
+        />
       </div>
     )
   }

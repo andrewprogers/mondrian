@@ -6,5 +6,9 @@ body {
 
 .Canvas {
   border: 1px solid black;
-  padding: 10px;
+  margin: 50px;
+}
+
+.Tile {
+  display: inline-block;
 }

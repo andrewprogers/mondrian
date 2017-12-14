@@ -17,12 +17,13 @@ class Canvas extends React.Component {
     };
 
     return(
+
       <div style={canvasStyle} className='Canvas'>
         <Tile
           initialColor='#BBB'
           width={this.state.width}
           height={this.state.height}
-          />
+        />
       </div>
     )
   }

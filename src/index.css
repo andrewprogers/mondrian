@@ -8,3 +8,7 @@ body {
   border: 1px solid black;
   margin: 50px;
 }
+
+.Tile {
+  display: inline-block;
+}

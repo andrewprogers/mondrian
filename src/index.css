@@ -5,10 +5,10 @@ body {
 }
 
 .Canvas {
-  border: 1px solid black;
+  border: 4px solid black;
   margin: 50px;
 }
 
-.Tile {
+.Tile, .Bar {
   display: inline-block;
 }

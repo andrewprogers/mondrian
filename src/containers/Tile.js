@@ -1,5 +1,6 @@
 import React from 'react';
-import utils from '../temp/utils'
+import Bar from '../components/Bar';
+import utils from '../temp/utils';
 
 class Tile extends React.Component {
   constructor(props) {
@@ -32,9 +33,9 @@ class Tile extends React.Component {
     };
 
     let sortedDividers = this.state.dividers.slice().sort();
-    let children = sortedDividers.map((divider, i, dividers) => {
+    let tiles = sortedDividers.map((divider, i, dividers) => {
       let portion = (i === 0) ? dividers[0] : dividers[i] - dividers[i-1];
-      let width = portion * this.props.width;
+      let width = portion * this.props.width - 5;
       return(
         <Tile
           key={'tile-' + i}
@@ -42,6 +43,14 @@ class Tile extends React.Component {
           width={width}
           height={this.props.height}
         />
+      )
+    })
+
+    let children = [];
+    tiles.forEach((tile, i) => {
+      children.push(tile)
+      children.push(
+        <Bar key={'bar-' + i} />
       )
     })
 

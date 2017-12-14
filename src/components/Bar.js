@@ -3,7 +3,7 @@ import React from 'react';
 const Bar = props => {
   let barStyle = {
     backgroundColor: 'black',
-    width: '5px',
+    width: props.width,
     height: '100%'
   }
 

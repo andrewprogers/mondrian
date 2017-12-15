@@ -31,7 +31,7 @@ class Tile extends React.Component {
     e.stopPropagation();
     this.setState({
       vertical: this.props.initialVertical,
-      divider: this.getDivider(e)
+      divider: this.getDivider(e, this.props.initialVertical)
     });
   }
 

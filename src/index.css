@@ -4,6 +4,10 @@ body {
   font-family: sans-serif;
 }
 
+div {
+  font-size: 0px;
+}
+
 .Canvas {
   border: 4px solid black;
   margin: 50px;
@@ -11,4 +15,11 @@ body {
 
 .Tile, .Bar {
   display: inline-block;
+  margin: 0;
+}
+
+.Bar {
+  background-color: black;
+  margin: 0px;
+  padding: 0px;
 }

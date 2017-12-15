@@ -9,7 +9,7 @@ class Tile extends React.Component {
     super(props);
     this.state = {
       color: this.props.initialColor,
-      dividers: []
+      divider: null
     };
     this.clickHandler = this.clickHandler.bind(this)
   }
@@ -23,7 +23,7 @@ class Tile extends React.Component {
     }
 
     this.setState({
-      dividers: [...this.state.dividers, proportion.x]
+      divider: proportion.x
     })
   }
 
@@ -34,42 +34,24 @@ class Tile extends React.Component {
       height: this.props.height
     };
 
-    let sortedDividers = this.state.dividers.slice().sort();
-    let tiles = sortedDividers.map((divider, i, dividers) => {
-      let portion = (i === 0) ? dividers[0] : dividers[i] - dividers[i-1];
-      let width = portion * this.props.width - ((i == 0) ? BAR_WIDTH / 2: BAR_WIDTH);
-
-      return(
+    let children = null;
+    if (this.state.divider !== null) {
+      let firstTileWidth = this.state.divider * this.props.width - BAR_WIDTH / 2;
+      children = <div>
         <Tile
-          key={'tile-' + i}
+          key='tile-1'
           initialColor={utils.randomColor()}
-          width={width}
+          width={firstTileWidth}
           height={this.props.height}
         />
-      )
-    })
-
-    let children = [];
-    tiles.forEach((tile, i) => {
-      children.push(tile)
-      children.push(
-        <Bar
-          key={'bar-' + i}
-          width={BAR_WIDTH}
-        />
-      )
-    })
-
-    if (this.state.dividers.length != 0) {
-      let remnant = 1 - this.state.dividers.reduce((sum, d) => (sum + d));
-      children.push(
+      <Bar key={'bar'} width={BAR_WIDTH} height={this.props.height} />
         <Tile
-          key={'tile-' + tiles.length}
+          key='tile-2'
           initialColor={utils.randomColor()}
-          width={remnant * this.props.width - (BAR_WIDTH / 2)}
+          width={this.props.width - firstTileWidth - BAR_WIDTH}
           height={this.props.height}
         />
-      );
+      </div>
     }
 
     return(

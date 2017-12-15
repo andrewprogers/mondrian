@@ -4,7 +4,7 @@ const Bar = props => {
   let barStyle = {
     backgroundColor: 'black',
     width: props.width,
-    height: '100%'
+    height: props.height
   }
 
   let clickHandler = (e) => {

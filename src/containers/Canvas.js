@@ -21,6 +21,7 @@ class Canvas extends React.Component {
       <div style={canvasStyle} className='Canvas'>
         <Tile
           initialColor='#BBB'
+          initialVertical={true}
           width={this.state.width}
           height={this.state.height}
         />

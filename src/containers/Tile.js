@@ -1,6 +1,7 @@
 import React from 'react';
 import Bar from '../components/Bar';
-import utils from '../temp/utils';
+import utils from '../helpers/utils';
+import relativeClick from '../helpers/relativeClick';
 
 const BAR_SIZE = 8
 
@@ -9,23 +10,31 @@ class Tile extends React.Component {
     super(props);
     this.state = {
       color: this.props.initialColor,
-      divider: null
+      divider: null,
+      vertical: this.props.initialVertical
     };
-    this.clickHandler = this.clickHandler.bind(this)
+    this.clickHandler = this.clickHandler.bind(this);
+    this.changeMode = this.changeMode.bind(this);
   }
 
   clickHandler(e) {
     e.stopPropagation();
-    if (this.state.divider === null) {
-      let rect = e.currentTarget.getBoundingClientRect();
-      let proportion = {
-        x: (e.clientX - rect.x) / this.props.width,
-        y: (e.clientY - rect.y) / this.props.height
-      }
 
+    if (this.state.vertical) {
+      this.setState({ divider: relativeClick(e, this.props).x });
+    } else {
+      this.setState({ divider: relativeClick(e, this.props).y });
+    }
+  }
+
+  changeMode() {
+    if (this.state.vertical === this.props.initialVertical) {
+      this.setState({vertical: !this.state.vertical});
+    } else {
       this.setState({
-        divider: proportion.x
-      })
+        divider: null,
+        vertical: this.props.initialVertical
+      });
     }
   }
 
@@ -37,22 +46,27 @@ class Tile extends React.Component {
     };
 
     let children = null;
-    if (this.state.divider !== null) {
-      let firstWidth = this.state.divider * this.props.width - BAR_SIZE / 2;
+    if (this.state.divider) {
+
+      let maxLength = (this.state.vertical) ? this.props.width : this.props.height;
+      let firstLength = this.state.divider * maxLength - BAR_SIZE / 2;
+      let secondLength = maxLength - firstLength - BAR_SIZE;
       children = <div>
         <Tile
           initialColor={utils.randomColor()}
-          width={firstWidth}
-          height={this.props.height}
+          width={ (this.state.vertical) ? firstLength : this.props.width }
+          height={ (this.state.vertical) ? this.props.height : firstLength }
         />
         <Bar
-          width={BAR_SIZE}
-          height={this.props.height}
+          thickness={BAR_SIZE}
+          length={ (this.state.vertical) ? this.props.height : this.props.width }
+          vertical={this.state.vertical}
+          onClick={this.changeMode}
         />
         <Tile
           initialColor={utils.randomColor()}
-          width={this.props.width - firstWidth - BAR_SIZE}
-          height={this.props.height}
+          width={ (this.state.vertical) ? secondLength : this.props.width }
+          height={ (this.state.vertical) ? this.props.height : secondLength }
         />
       </div>
     }

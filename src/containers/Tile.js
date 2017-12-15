@@ -5,11 +5,6 @@ import relativeClick from '../helpers/relativeClick';
 
 const BAR_SIZE = 8
 
-let getDivider = (event, target, isVertical) => {
-  let prop = relativeClick(event, target);
-  return (isVertical) ? prop.x : prop.y;
-}
-
 class Tile extends React.Component {
   constructor(props) {
     super(props);
@@ -22,15 +17,28 @@ class Tile extends React.Component {
     this.changeMode = this.changeMode.bind(this);
   }
 
+  getDivider(event, isVertical = this.state.vertical) {
+    let rect = this.element.getBoundingClientRect();
+
+    if (isVertical) {
+      return (event.clientX - rect.x) / rect.width;
+    } else {
+      return (event.clientY - rect.y) / rect.height;
+    }
+  }
+
   clickHandler(e) {
     e.stopPropagation();
-    this.setState({divider: getDivider(e, this.element, this.state.vertical)})
+    this.setState({
+      vertical: this.props.initialVertical,
+      divider: this.getDivider(e)
+    });
   }
 
   changeMode(e) {
     if (this.state.vertical === this.props.initialVertical) {
       this.setState({
-        divider: getDivider(e, this.element, !this.state.vertical),
+        divider: this.getDivider(e, !this.state.vertical),
         vertical: !this.state.vertical
       });
     } else {
@@ -57,6 +65,7 @@ class Tile extends React.Component {
       children = [
         <Tile key="tile-1"
           initialColor={utils.randomColor()}
+          initialVertical={this.state.vertical}
           width={ (this.state.vertical) ? firstLength : this.props.width }
           height={ (this.state.vertical) ? this.props.height : firstLength }
         />,
@@ -68,6 +77,7 @@ class Tile extends React.Component {
         />,
       <Tile key="tile-2"
           initialColor={utils.randomColor()}
+          initialVertical={this.state.vertical}
           width={ (this.state.vertical) ? secondLength : this.props.width }
           height={ (this.state.vertical) ? this.props.height : secondLength }
         />

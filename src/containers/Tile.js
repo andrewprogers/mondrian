@@ -5,6 +5,11 @@ import relativeClick from '../helpers/relativeClick';
 
 const BAR_SIZE = 8
 
+let getDivider = (event, target, isVertical) => {
+  let prop = relativeClick(event, target);
+  return (isVertical) ? prop.x : prop.y;
+}
+
 class Tile extends React.Component {
   constructor(props) {
     super(props);
@@ -19,17 +24,15 @@ class Tile extends React.Component {
 
   clickHandler(e) {
     e.stopPropagation();
-
-    if (this.state.vertical) {
-      this.setState({ divider: relativeClick(e, this.props).x });
-    } else {
-      this.setState({ divider: relativeClick(e, this.props).y });
-    }
+    this.setState({divider: getDivider(e, this.element, this.state.vertical)})
   }
 
-  changeMode() {
+  changeMode(e) {
     if (this.state.vertical === this.props.initialVertical) {
-      this.setState({vertical: !this.state.vertical});
+      this.setState({
+        divider: getDivider(e, this.element, !this.state.vertical),
+        vertical: !this.state.vertical
+      });
     } else {
       this.setState({
         divider: null,
@@ -51,29 +54,30 @@ class Tile extends React.Component {
       let maxLength = (this.state.vertical) ? this.props.width : this.props.height;
       let firstLength = this.state.divider * maxLength - BAR_SIZE / 2;
       let secondLength = maxLength - firstLength - BAR_SIZE;
-      children = <div>
-        <Tile
+      children = [
+        <Tile key="tile-1"
           initialColor={utils.randomColor()}
           width={ (this.state.vertical) ? firstLength : this.props.width }
           height={ (this.state.vertical) ? this.props.height : firstLength }
-        />
-        <Bar
+        />,
+      <Bar key="bar"
           thickness={BAR_SIZE}
           length={ (this.state.vertical) ? this.props.height : this.props.width }
           vertical={this.state.vertical}
           onClick={this.changeMode}
-        />
-        <Tile
+        />,
+      <Tile key="tile-2"
           initialColor={utils.randomColor()}
           width={ (this.state.vertical) ? secondLength : this.props.width }
           height={ (this.state.vertical) ? this.props.height : secondLength }
         />
-      </div>
+      ]
     }
 
     return(
       <div
         className='Tile'
+        ref={el => {this.element = el;} }
         style={tileStyle}
         onClick={this.clickHandler}>
         {children}

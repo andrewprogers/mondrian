@@ -18,7 +18,7 @@ const Bar = props => {
 
   let clickHandler = (e) => {
     e.stopPropagation();
-    props.onClick();
+    props.onClick(e);
   }
 
   return(

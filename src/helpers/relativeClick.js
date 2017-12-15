@@ -1,8 +1,8 @@
-const relativeCLick = (event, size) => {
-  let rect = event.currentTarget.getBoundingClientRect();
+const relativeCLick = (event, target) => {
+  let rect = target.getBoundingClientRect();
   return {
-    x: (event.clientX - rect.x) / size.width,
-    y: (event.clientY - rect.y) / size.height
+    x: (event.clientX - rect.x) / rect.width,
+    y: (event.clientY - rect.y) / rect.height
   }
 }
 
